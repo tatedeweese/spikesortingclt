@@ -1,8 +1,6 @@
 from parameters import *
 import os
 import json
-import sys
-import subprocess
 
 # ecephys: sglx_multi_run_pipeline.py
 os.makedirs(catGT_dest, exist_ok=True)
@@ -10,6 +8,7 @@ os.makedirs(json_directory, exist_ok=True)
 scripts_folder = os.path.join(ecephys_directory, "scripts")
 sglx_file = os.path.join(scripts_folder, "sglx_multi_run_pipeline.py")
 clt_folder = os.path.dirname(os.path.realpath(__file__))
+clt_head_folder = os.path.dirname(clt_folder)
 
 # ecephys: quality_metrics
 quality_input_json = os.path.join(json_directory, f"{runName}_imec0-input.json")
@@ -37,9 +36,12 @@ run_helper = os.path.join(clt_folder, "run.sh")
 with open(run_helper, 'w+') as f:
     f.write(f'''\
 #! /bin/bash
+set -e
 eval "$(conda shell.bash hook)"
 echo "conda activate {ecephys_env}"
 conda activate {ecephys_env}
+echo 'pip install "{clt_head_folder}"'
+pip install "{clt_head_folder}"
 echo 'python "{sglx_file}"'
 python "{sglx_file}"
 echo "conda activate {burst_env}"

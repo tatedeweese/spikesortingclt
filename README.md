@@ -17,8 +17,9 @@
 
 ### Each Curation
 1. Update parameters.py
-1. Run in terminal
+1. Run in terminal. Note: works in base probably because of `eval "$(conda shell.bash hook)"` line
    ```bash
+   conda activate base
    cd spikesortingclt
    python create_bash.py
    bash run.sh

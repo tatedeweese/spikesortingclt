@@ -1,5 +1,7 @@
 *.code-workspace
 *.DS_Store
 *.log
-__pycache__
+__pycache__/
 *.egg-info
+build/
+run.sh
