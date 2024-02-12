@@ -16,3 +16,9 @@
    python create_bash.py
    bash run.sh
    ```
+
+### Errors
+* If sglx_run_multi_pipeline.py cannot find your meta file, you may have to change permissions of your data folder. For example if the data lies in the D: Drive try running the code below
+  ```bash
+  chmod 777 D:/
+  ```
