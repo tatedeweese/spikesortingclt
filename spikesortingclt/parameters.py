@@ -1,15 +1,6 @@
 import os
 # compiles parameters in one place for subsequent spike sorting
 
-# ecephys_spike_sorting: create_input_json.py
-ecephys_directory = r'C:\Users\tdeweese\Documents\SpikeSorting\ecephys_spike_sorting\ecephys_spike_sorting'
-kilosort_repository = r'C:\Users\tdeweese\Documents\SpikeSorting\Kilosort-2.5'
-KS2ver = '2.5' 
-npy_matlab_repository = r'C:\Users\tdeweese\Documents\MATLAB\npy-matlab'
-catGTPath = r'C:\Users\tdeweese\Documents\SpikeSorting\CatGT-win'
-tPrime_path = r'C:\Users\tdeweese\Documents\SpikeSorting\TPrime-win'
-cWaves_path = r'C:\Users\tdeweese\Documents\SpikeSorting\C_Waves-win'
-
 # ecephys_spike_sorting: sglx_multi_run_pipeline.py parameters
 logName = "" # Default: runName_log.csv
 npx_directory = r'C:\Users\tdeweese\Documents\test-data' # folder above _g0
