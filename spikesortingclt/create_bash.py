@@ -38,29 +38,29 @@ with open(run_helper, 'w+') as f:
 #! /bin/bash
 set -e
 eval "$(conda shell.bash hook)"
-echo "conda activate {ecephys_env}"
+echo "(base) conda activate {ecephys_env}"
 conda activate {ecephys_env}
-echo 'pip install "{clt_head_folder}"'
+echo '({ecephys_env}) pip install "{clt_head_folder}"'
 pip install "{clt_head_folder}"
-echo 'python "{sglx_file}"'
+echo '({ecephys_env}) python "{sglx_file}"'
 python "{sglx_file}"
-echo "conda activate {burst_env}"
+echo "({ecephys_env}) conda activate {burst_env}"
 conda activate {burst_env}
-echo 'python "{plot_units}" --input "{burst_input_json_path}" --output "{burst_output_json_path}"'
+echo '({burst_env}) python "{plot_units}" --input "{burst_input_json_path}" --output "{burst_output_json_path}"'
 python "{plot_units}" --input "{burst_input_json_path}" --output "{burst_output_json_path}"
-echo "conda activate {ecephys_env}"
+echo "({burst_env}) conda activate {ecephys_env}"
 conda activate {ecephys_env}
-echo 'python -m ecephys_spike_sorting.modules.quality_metrics --input "{quality_input_json}" --output "{quality_output_json}"'
+echo '({ecephys_env}) python -m ecephys_spike_sorting.modules.quality_metrics --input "{quality_input_json}" --output "{quality_output_json}"'
 python -m ecephys_spike_sorting.modules.quality_metrics --input "{quality_input_json}" --output "{quality_output_json}"
-echo "conda activate {burst_env}"
+echo "({ecephys_env}) conda activate {burst_env}"
 conda activate {burst_env}
-echo 'python "{custom_metrics}"'
+echo '({burst_env}) python "{custom_metrics}"'
 python "{custom_metrics}"
-echo 'cd "{ks_folder}"'
+echo '({burst_env}) cd "{ks_folder}"'
 cd "{ks_folder}"
-echo 'conda activate {phy_env}'
+echo '({burst_env}) conda activate {phy_env}'
 conda activate {phy_env}
-echo 'phy template-gui params.py'
+echo '({phy_env}) phy template-gui params.py'
 phy template-gui params.py
 ''')
 
