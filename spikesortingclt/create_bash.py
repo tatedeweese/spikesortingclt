@@ -3,19 +3,21 @@ import os
 import json
 
 def modules_line(mod_value):
-    mod_str = "modules = [\n"
-    modules = ["kilosort_helper", "kilosrt_postprocessing", "noise_templates", "mean_waveforms", "quality_metrics", "psth_events"]
+    mod_str = "modules = ["
+    modules = ["kilosort_helper", "kilosort_postprocessing", "noise_templates", "mean_waveforms", "quality_metrics", "psth_events"]
     for mod in modules:
         pre = "" if mod in mod_value else "# "
-        mod_str += f"\t{pre}{mod}\n"
-    mod_str += "]\n"
+        mod_str += f"\n\t{pre}\'{mod}\',"
+    mod_str = mod_str[:-1]
+    mod_str += "\n]\n"
     return mod_str
 
 def run_line(run_value):
-    run_str = "run_specs = [\n"
+    run_str = "run_specs = ["
     for run in run_value:
-        run_str += f"\t{run}\n"
-    run_str += "]\n"
+        run_str += f"\n\t{run},"
+    run_str = run_str[:-1]
+    run_str += "\n]\n"
     return run_str
 
 def update_sglx_file(sglx_file):
@@ -29,7 +31,7 @@ def update_sglx_file(sglx_file):
                 if key in params:
                     value = globals()[key]
                     if key in ["npx_directory", "catGT_dest", "json_directory"]: # directory
-                        newline = f"{key} = r'{value}'\n"
+                        newline = f"{key} = r\'{value}\'\n"
                     elif key in ["run_specs", "modules"]: # possibly multiline
                         open_brackets = line.count("[")
                         closed_brackets = line.count("]")
@@ -39,9 +41,13 @@ def update_sglx_file(sglx_file):
                             closed_brackets += line.count("]")
                         newline = run_line(value) if key == "run_specs" else modules_line(value)
                     else:
-                        newline = f"{key} = {value}\n"
+                        if type(value) == str:
+                            newline = f"{key} = \'{value}\'\n"
+                        else:
+                            newline = f"{key} = {value}\n"
                 line = in_f.readline()
                 out_f.write(newline)
+    os.replace(sglx_file + '.tmp', sglx_file)
 
 def create_burst_json(filepath, imec_folder, ks_folder):
     data_filepath = os.path.join(imec_folder, f"{runName}_g0_tcat.imec0.ap.bin")
@@ -50,7 +56,7 @@ def create_burst_json(filepath, imec_folder, ks_folder):
         "KS_folder": ks_folder.replace('\\', '/')
     }
     with open(filepath, "w+") as f:
-        json.dump(burst_dir, f)
+        json.dump(burst_dir, f, indent=4)
 
 def generate_bash(sglx_file, burst_input_json_path, burst_output_json_path, quality_input_json, quality_output_json, ks_folder):
     plot_units_file = os.path.join(burst_detector_path, "burst_detector", "plot_units.py")

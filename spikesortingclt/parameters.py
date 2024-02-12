@@ -58,7 +58,6 @@ if not catGT_dest:
     npx_directory = npx_directory.rstrip('/')
     if len(npx_directory) == 2: # drive
         catGT_dest = os.path.join(npx_directory, os.sep, f"{runName}_g0_out")
-        print(catGT_dest)
     else:
         catGT_dest = os.path.join(npx_directory, f"{runName}_g0_out")
 if not json_directory:
