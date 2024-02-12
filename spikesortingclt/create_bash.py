@@ -23,9 +23,10 @@ burst_output_json_path = os.path.join(burst_detector_path, "json_files", f"{runN
 catgt_folder = os.path.join(catGT_dest, f"catgt_{runName}_g0")
 imec_folder = os.path.join(catgt_folder, f"{runName}_g0_imec0")
 ks_folder = os.path.join(imec_folder, "imec0_ks2")
+data_filepath = os.path.join(imec_folder, f"{runName}_g0_tcat.imec0.ap.bin")
 burst_dir = {
-    "data_filepath": os.path.join(imec_folder, f"{runName}_g0_tcat.imec0.ap.bin"),
-    "KS_folder": ks_folder
+    "data_filepath": data_filepath.replace('\\', '/'),
+    "KS_folder": ks_folder.replace('\\', '/')
 }
 with open(burst_input_json_path, "w+") as f:
     json.dump(burst_dir, f)
