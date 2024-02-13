@@ -21,7 +21,7 @@ def run_line(run_value):
     return run_str
 
 def update_sglx_file(sglx_file):
-    params = ["logName", "npx_directory", "run_specs", "run_CatGT", "catGT_dest", "process_lf", "catGT_cmd_string", "ni_present", "ni_extract_string", "runTPrime", "modules", "json_directory"]
+    params = ["logName", "npx_directory", "run_specs", "run_CatGT", "process_lf", "catGT_cmd_string", "ni_present", "ni_extract_string", "runTPrime", "modules", "json_directory"]
     with open(sglx_file, "r") as in_f:
         with open(sglx_file + '.tmp', 'w+') as out_f:
             line = in_f.readline()
@@ -30,7 +30,7 @@ def update_sglx_file(sglx_file):
                 key = newline.split(' ', 1)[0]
                 if key in params:
                     value = globals()[key]
-                    if key in ["npx_directory", "catGT_dest", "json_directory"]: # directory
+                    if key in ["npx_directory", "json_directory"]: # directory
                         newline = f"{key} = r\'{value}\'\n"
                     elif key in ["run_specs", "modules"]: # possibly multiline
                         open_brackets = line.count("[")
@@ -120,7 +120,6 @@ phy template-gui params.py
 
 def main():
     # ecephys: sglx_multi_run_pipeline.py
-    os.makedirs(catGT_dest, exist_ok=True)
     os.makedirs(json_directory, exist_ok=True)
     scripts_folder = os.path.join(ecephys_directory, "scripts")
     sglx_file = os.path.join(scripts_folder, "sglx_multi_run_pipeline.py")
@@ -131,7 +130,7 @@ def main():
     # create json
     burst_input_json_path = os.path.join(burst_detector_path, "json_files", f"{runName}_g0.json")
     burst_output_json_path = os.path.join(burst_detector_path, "json_files", f"{runName}_g0-output.json")
-    catgt_folder = os.path.join(catGT_dest, f"catgt_{runName}_g0")
+    catgt_folder = os.path.join(npx_directory, f"{runName}_g0", f"catgt_{runName}_g0")
     imec_folder = os.path.join(catgt_folder, f"{runName}_g0_imec0")
     ks_folder = os.path.join(imec_folder, "imec0_ks2")
     create_burst_json(burst_input_json_path, imec_folder, ks_folder)

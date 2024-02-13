@@ -4,7 +4,7 @@ import os
 # ------------
 # RUN COMMANDS
 # ------------
-run_pipeline = True # ecephys_spike_sorting/ecephys_spike_sorting/scripts/sglx_multi_run_pipeline.py
+run_pipeline = False # ecephys_spike_sorting/ecephys_spike_sorting/scripts/sglx_multi_run_pipeline.py
 plot_units = True # burst-detector/burst_detector/plot_units.py
 quality_metrics = True # ecephys_spike_sorting.modules.quality_metrics
 custom_metrics = True # burst-detector/burst_detector/custom_metrics.py
@@ -21,7 +21,6 @@ run_specs = [ # run_specs = name, gate, trigger and probes to process
 ]
 # CATGT PARAMETERS
 run_CatGT = True
-catGT_dest = "" # Default: npx_directory/runName_ga_out (if multiple runNames will use first)
 process_lf = False
 catGT_cmd_string = '-prb_fld -out_prb_fld -apfilter=butter,12,300,10000 -lffilter=butter,12,1,500 -gfix=0.4,0.10,0.02 '
 ni_present = True # will validate this
@@ -52,14 +51,6 @@ burst_env = "burst-detector"
 ### DO NOT EDIT BELOW ###
 # Set default names if not defined above
 runName = run_specs[0][0]
-if not catGT_dest:
-    # edge-case if npx_directory is drive
-    npx_directory = npx_directory.rstrip('\\')
-    npx_directory = npx_directory.rstrip('/')
-    if len(npx_directory) == 2: # drive
-        catGT_dest = os.path.join(npx_directory, os.sep, f"{runName}_g0_out")
-    else:
-        catGT_dest = os.path.join(npx_directory, f"{runName}_g0_out")
 if not json_directory:
     ecephys_head = os.path.dirname(ecephys_directory)
     json_directory = os.path.join(ecephys_head, "json_files")
