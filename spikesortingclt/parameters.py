@@ -4,10 +4,10 @@ import os
 # ------------
 # RUN COMMANDS
 # ------------
-run_pipeline = False # ecephys_spike_sorting/ecephys_spike_sorting/scripts/sglx_multi_run_pipeline.py
-plot_units = False # burst-detector/burst_detector/plot_units.py
-quality_metrics = False # ecephys_spike_sorting.modules.quality_metrics
-custom_metrics = False # burst-detector/burst_detector/custom_metrics.py
+run_pipeline = True # ecephys_spike_sorting/ecephys_spike_sorting/scripts/sglx_multi_run_pipeline.py
+plot_units = True # burst-detector/burst_detector/plot_units.py
+quality_metrics = True # ecephys_spike_sorting.modules.quality_metrics
+custom_metrics = True # burst-detector/burst_detector/custom_metrics.py
 phy = True # startup phy in KS_folder
 
 burst_detector_path = r'C:\Users\tdeweese\Documents\SpikeSorting\burst-detector'

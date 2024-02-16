@@ -21,18 +21,18 @@ def create_burst_json(filepath, imec_folder, ks_folder, run_str, prb):
 def execute(cmd, conda=True):
     if conda:
         cmd = f"call {conda_prompt_path} && {cmd}"
-    with subprocess.Popen(cmd.split(), shell=True, bufsize=1, stdout=subprocess.PIPE, universal_newlines=True) as popen:
+    with subprocess.Popen(cmd.split(), shell=True, bufsize=1, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True) as popen:
         for stdout_line in popen.stdout:
             print(stdout_line, end="")
     if popen.returncode != 0:
+        print(f"Error: {popen.stderr.read()}")
         raise subprocess.CalledProcessError(popen.returncode, popen.args)
-    
+
 def run_subprocesses(burst_input_json_path, burst_output_json_path, quality_input_json, quality_output_json, ks_folder):
     sglx_file = os.path.join(ecephys_directory, "scripts", "sglx_multi_run_pipeline.py")
     plot_units_file = os.path.join(burst_detector_path, "burst_detector", "plot_units.py")
     custom_metrics_file = os.path.join(burst_detector_path, "burst_detector", "custom_metrics.py")
     phy_file = os.path.join(ks_folder, "params.py")
-    execute("ls")
     if run_pipeline:
         print("~~~RUNNING SGLX_MULTI_RUN_PIPELINE~~~")
         conda_cmd = f"conda activate {ecephys_env}"
